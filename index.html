@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ChainVLA project page">
+  <title>ChainVLA: Chaining Vision-Language-Action Queries through a Unified Execution State for Long-Horizon Manipulation</title>
+  <link rel="icon" href="Figures/icon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1em auto 0.4em;
+      font-size: 0.92em;
+      background: #fff;
+    }
+    .results-table caption {
+      text-align: left;
+      font-weight: 600;
+      margin-bottom: 0.4em;
+      color: #333;
+    }
+    .results-table th, .results-table td {
+      padding: 4px 8px;
+      text-align: right;
+      border-bottom: 1px solid #e3e6ea;
+    }
+    .results-table th:first-child, .results-table td:first-child { text-align: left; }
+    .results-table thead th {
+      border-top: 2px solid #4a5568;
+      border-bottom: 1.5px solid #4a5568;
+      background: #f2f4f6;
+      text-align: right;
+    }
+    .results-table thead th:first-child { text-align: left; }
+    .results-table tbody tr:last-child td { border-bottom: 2px solid #4a5568; }
+    .results-table tr.group td {
+      background: #f2f4f6;
+      font-style: italic;
+      text-align: left;
+      color: #444;
+    }
+    .results-table tr.full td {
+      background: #e4e7eb;
+      font-weight: 700;
+    }
+    .table-note { font-size: 0.82em; color: #666; margin-top: 0.2em; }
+    .figure-grid { display: grid; grid-template-columns: 1fr; gap: 1.2em; margin-top: 1em; }
+    .figure-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2em; align-items: start; }
+    @media (max-width: 768px) { .figure-pair { grid-template-columns: 1fr; } }
+    .figure-card p { font-size: 0.85em; color: #555; margin-top: 0.4em; }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="container center">
+      <h1 class="title">
+        <span class="title-highlight"><img src="Figures/icon.png" alt="ChainVLA icon" class="title-icon">ChainVLA</span>:
+        Chaining <u>V</u>ision-<u>L</u>anguage-<u>A</u>ction Queries through a Unified Execution State for Long-Horizon Manipulation
+      </h1>
+      <p class="subtitle center">Preprint</p>
+
+      <div class="authors-container center">
+        <div class="author-names">
+          <span class="author">Yuzhi Huang<sup>1*</sup>,</span>
+          <span class="author">Weijue Bu<sup>2*</sup>,</span>
+          <span class="author">Ziyi Xiong<sup>3</sup>,</span>
+          <span class="author">Jie Wu<sup>1</sup>,</span>
+          <span class="author">Fanding Huang<sup>1</sup>,</span>
+          <span class="author">Jingyan Jiang<sup>3</sup>,</span>
+          <span class="author">Zhi Wang<sup>1</sup></span>
+        </div>
+        <div class="author-affiliations">
+          <span class="author-block"><sup>1</sup>Shenzhen International Graduate School, Tsinghua University</span><br>
+          <span class="author-block"><sup>2</sup>China University of Mining and Technology</span><br>
+          <span class="author-block"><sup>3</sup>Shenzhen Technology University</span>
+        </div>
+        <div class="author-notes">
+          <sup>*</sup>Equal contribution.
+        </div>
+      </div>
+
+      <div class="links">
+        <a href="#" class="btn" title="arXiv link coming soon"><i class="ai ai-arxiv"></i> arXiv</a>
+        <a href="#bibtex" class="btn"><i class="fa-solid fa-book"></i> BibTeX</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <img src="Figures/teaser.png" alt="ChainVLA teaser figure">
+      <h2>Highlight</h2>
+      <div class="abstract-content">
+        <p class="highlight-item">
+          1. <b>Unified Execution State:</b> <i><b>ChainVLA</b></i> chains successive receding-horizon VLA queries through a joint and revisable execution state, so each new prediction inherits both the task progress and the unfinished motion of the preceding query instead of restarting from the current input alone.
+        </p>
+        <p class="highlight-item">
+          2. <b>Progress Context:</b> A recurrent Working State combined with a Sparse Event Memory carries observation-derived task progress, keeping evidence that has left the current view available to condition each new decision.
+        </p>
+        <p class="highlight-item">
+          3. <b>Motion Tail:</b> The preceding prediction's unexecuted continuation conditions state construction and trajectory initialization, while the decoder regenerates every horizon position under the latest observation, keeping the carried state a revisable prior rather than a fixed plan.
+        </p>
+        <p class="highlight-item">
+          4. <b>Strong Results:</b> <i><b>ChainVLA</b></i> reaches 62.8% average success on memory-dependent RMBench and 98.8% across four LIBERO suites. Removing Motion Tail or Progress Context collapses RMBench success to 11.2% and 3.0%, while post-decoding seam smoothing alone recovers at most 2%.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Method</h2>
+      <img src="Figures/method.png" alt="ChainVLA method overview">
+      <p>
+        At each query, Progress Context combines live Working State tokens with event evidence retrieved from the Sparse Event Memory, while Motion Tail carries the preceding prediction's unexecuted suffix into state construction and action generation.
+        The decoder regenerates the full horizon under the latest query input; prefix execution then advances task progress, and the newly predicted suffix is carried forward for the next query.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Tasks</h2>
+      <img src="Figures/tasks.png" alt="RMBench task overview">
+      <p>
+        RMBench provides five memory-dependent bimanual tasks, each requiring several placements in sequence, so a single episode passes through multiple stages and therefore multiple query boundaries.
+        We additionally evaluate on the Spatial, Object, Goal, and Long suites of LIBERO as a breadth check.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Results</h2>
+
+      <table class="results-table">
+        <caption>Success rates (%) on RMBench. Best and second-best listed values are bold and underlined.</caption>
+        <thead>
+          <tr><th>Policy</th><th>Obs.</th><th>Rearr.</th><th>Put B.</th><th>Swap B.</th><th>Swap T.</th><th>Avg.</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>DP</td><td>1</td><td>0</td><td>0</td><td>11</td><td>20</td><td>6.4</td></tr>
+          <tr><td>ACT</td><td>1</td><td>29</td><td>0</td><td>2</td><td>2</td><td>6.8</td></tr>
+          <tr><td>&pi;<sub>0.5</sub> (2.6B+0.3B)</td><td><u>9</u></td><td>13</td><td>11</td><td>24</td><td>15</td><td>14.4</td></tr>
+          <tr><td>X-VLA (0.9B)</td><td><u>9</u></td><td>13</td><td>18</td><td>16</td><td>3</td><td>11.8</td></tr>
+          <tr><td>MemER</td><td>7</td><td>17</td><td>0</td><td>14</td><td>7</td><td>9.0</td></tr>
+          <tr><td>MemoryVLA (7B+0.3B)</td><td>0</td><td>22</td><td>50</td><td>17</td><td>9</td><td>19.6</td></tr>
+          <tr><td>Mem-0 (8B+2B)</td><td>4</td><td>89</td><td><u>90</u></td><td><u>67</u></td><td>14</td><td><u>52.8</u></td></tr>
+          <tr><td>MemoAct</td><td>4</td><td><b>98</b></td><td>41</td><td>--</td><td><b>55</b></td><td>--</td></tr>
+          <tr class="full"><td>ChainVLA (1.2B)</td><td><b>11</b></td><td><u>93</u></td><td><b>96</b></td><td><b>74</b></td><td><u>40</u></td><td><b>62.8</b></td></tr>
+        </tbody>
+      </table>
+
+      <table class="results-table">
+        <caption>Success rates (%) on LIBERO.</caption>
+        <thead>
+          <tr><th>Policy</th><th>Spatial</th><th>Object</th><th>Goal</th><th>Long</th><th>Avg.</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>OpenVLA (7B)</td><td>84.7</td><td>88.4</td><td>79.2</td><td>53.7</td><td>76.5</td></tr>
+          <tr><td>SpatialVLA (3.5B)</td><td>88.2</td><td>89.9</td><td>78.6</td><td>55.5</td><td>78.1</td></tr>
+          <tr><td>&pi;<sub>0</sub>-FAST (3B)</td><td>96.4</td><td>96.8</td><td>88.6</td><td>60.2</td><td>85.5</td></tr>
+          <tr><td>GR00T-N1 (2.2B)</td><td>94.4</td><td>97.6</td><td>93.0</td><td>90.6</td><td>93.9</td></tr>
+          <tr><td>&pi;<sub>0</sub> (3.3B)</td><td>96.8</td><td>98.8</td><td>95.8</td><td>85.2</td><td>94.2</td></tr>
+          <tr><td>&pi;<sub>0.5</sub> + KI</td><td>98.0</td><td>97.8</td><td>95.6</td><td>85.8</td><td>94.3</td></tr>
+          <tr><td>PAM</td><td>86.1</td><td>97.0</td><td>94.5</td><td>84.7</td><td>90.6</td></tr>
+          <tr><td>MemoryVLA (7B+0.3B)</td><td><b>98.4</b></td><td>98.4</td><td>96.4</td><td>93.4</td><td>96.7</td></tr>
+          <tr><td>CronusVLA (7B)</td><td>97.3</td><td><b>99.6</b></td><td>96.9</td><td>94.0</td><td>97.0</td></tr>
+          <tr><td>X-VLA (0.9B)</td><td><u>98.2</u></td><td>98.6</td><td><u>97.8</u></td><td><u>97.6</u></td><td><u>98.1</u></td></tr>
+          <tr class="full"><td>ChainVLA (1.2B)</td><td><b>98.4</b></td><td><u>99.4</u></td><td><b>99.2</b></td><td><b>98.2</b></td><td><b>98.8</b></td></tr>
+        </tbody>
+      </table>
+      <p class="table-note">Comparison rows follow the cited references and were not rerun under our protocol.</p>
+
+      <table class="results-table">
+        <caption>Matched ablations on RMBench (100 episodes per task). Best non-Full values are underlined.</caption>
+        <thead>
+          <tr><th>Configuration</th><th>Obs.</th><th>Rearr.</th><th>Put B.</th><th>Swap B.</th><th>Swap T.</th><th>Avg.</th></tr>
+        </thead>
+        <tbody>
+          <tr class="group"><td colspan="7">&#9660; <i>Task-progress side</i> (motion continuation kept)</td></tr>
+          <tr><td>w/o Stage Ann.</td><td><u>10</u></td><td><u>84</u></td><td><u>78</u></td><td><u>61</u></td><td>34</td><td><u>53.4</u></td></tr>
+          <tr><td>w/o Live Tokens</td><td><u>10</u></td><td>78</td><td>72</td><td>48</td><td>28</td><td>47.2</td></tr>
+          <tr><td>w/o Event Readout</td><td>9</td><td>65</td><td>25</td><td>38</td><td>24</td><td>32.2</td></tr>
+          <tr><td>w/o Progress Ctx.</td><td>6</td><td>4</td><td>0</td><td>1</td><td>4</td><td>3.0</td></tr>
+          <tr class="group"><td colspan="7">&#9660; <i>Motion-continuation side</i> (task progress kept)</td></tr>
+          <tr><td>w/o Tail Tokens</td><td>8</td><td>78</td><td><u>78</u></td><td>58</td><td><u>38</u></td><td>52.0</td></tr>
+          <tr><td>w/o Traj. Init.</td><td>7</td><td>60</td><td>45</td><td>45</td><td>33</td><td>38.0</td></tr>
+          <tr><td>w/o Motion Tail</td><td>1</td><td>24</td><td>0</td><td>2</td><td>29</td><td>11.2</td></tr>
+          <tr class="group"><td colspan="7">&#9660; <i>No carried state, and a substitute</i></td></tr>
+          <tr><td>w/o Both</td><td>4</td><td>0</td><td>0</td><td>0</td><td>4</td><td>1.6</td></tr>
+          <tr><td>FIFO Hist. + TE</td><td>8</td><td>58</td><td>47</td><td>40</td><td>25</td><td>35.6</td></tr>
+          <tr class="full"><td>ChainVLA (Full)</td><td><b>11</b></td><td><b>93</b></td><td><b>96</b></td><td><b>74</b></td><td><b>40</b></td><td><b>62.8</b></td></tr>
+        </tbody>
+      </table>
+      <p class="table-note">Removing either half of the carried state collapses performance, while the complete state is required for the full gain.</p>
+
+      <table class="results-table">
+        <caption>Post-decoding smoothing controls. Success (100 episodes) and position CD (mm, lower is better).</caption>
+        <thead>
+          <tr><th>Method</th><th colspan="2">Put Back Block</th><th colspan="2">Swap Blocks</th></tr>
+          <tr><th></th><th>Succ.</th><th>CD<sub>p</sub></th><th>Succ.</th><th>CD<sub>p</sub></th></tr>
+        </thead>
+        <tbody>
+          <tr><td>w/o Motion Tail</td><td>0</td><td>5.90</td><td>2</td><td>10.06</td></tr>
+          <tr><td>Linear Cont.</td><td>0</td><td><b>2.09</b></td><td>2</td><td>3.72</td></tr>
+          <tr><td>Temporal Ens.</td><td>0</td><td>3.57</td><td>0</td><td>7.52</td></tr>
+          <tr class="full"><td>Full</td><td><b>96</b></td><td>2.69</td><td><b>74</b></td><td><b>3.49</b></td></tr>
+        </tbody>
+      </table>
+      <p class="table-note">Post-decoding controls reduce most measured boundary errors yet recover at most 2% success: reducing output-level seams alone does not explain the complete-policy gain.</p>
+
+      <div class="figure-pair">
+        <div class="figure-card">
+          <img src="Figures/boundary_example.png" alt="Illustrative boundary example">
+          <p>Illustrative Put Back Block boundary from paired-scene rollouts: 0.66 mm position CD with Motion Tail against 17.32 mm without it.</p>
+        </div>
+        <div class="figure-card">
+          <img src="Figures/boundary.png" alt="Aggregate boundary errors">
+          <p>Boundary errors for Full and w/o Motion Tail over 80 matched pairs: pooled reductions of 56.6%, 40.4%, 57.4%, and 43.1% for the four diagnostics.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="bibtex">
+    <div class="container">
+      <div class="bibtex-header">
+        <h2>BibTeX</h2>
+        <button type="button" class="copy-bibtex-btn" data-copy-target="bibtex-code">
+          <i class="fa-regular fa-copy" aria-hidden="true"></i>
+          <span>Copy</span>
+        </button>
+      </div>
+      <pre><code id="bibtex-code">@misc{huang2026chainvla,
+  title={ChainVLA: Chaining Vision-Language-Action Queries through a Unified Execution State for Long-Horizon Manipulation},
+  author={Yuzhi Huang and Weijue Bu and Ziyi Xiong and Jie Wu and Fanding Huang and Jingyan Jiang and Zhi Wang},
+  year={2026},
+  note={arXiv preprint},
+}</code></pre>
+    </div>
+  </section>
+
+  <script>
+    const copyBibTeXButton = document.querySelector("[data-copy-target]");
+
+    async function copyText(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return;
+      }
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "absolute";
+      textarea.style.left = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+    }
+
+    if (copyBibTeXButton) {
+      const label = copyBibTeXButton.querySelector("span");
+      const icon = copyBibTeXButton.querySelector("i");
+      let resetTimer;
+
+      copyBibTeXButton.addEventListener("click", async () => {
+        const targetId = copyBibTeXButton.dataset.copyTarget;
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        try {
+          await copyText(target.textContent.trim());
+          copyBibTeXButton.classList.add("copied");
+          label.textContent = "Copied";
+          icon.className = "fa-solid fa-check";
+        } catch (error) {
+          copyBibTeXButton.classList.add("copy-failed");
+          label.textContent = "Retry";
+          icon.className = "fa-solid fa-xmark";
+        }
+        window.clearTimeout(resetTimer);
+        resetTimer = window.setTimeout(() => {
+          copyBibTeXButton.classList.remove("copied", "copy-failed");
+          label.textContent = "Copy";
+          icon.className = "fa-regular fa-copy";
+        }, 1800);
+      });
+    }
+  </script>
+
+</body>
+</html>
