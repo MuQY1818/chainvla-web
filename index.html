@@ -13,23 +13,75 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
   <style>
+    /* ---------- global polish ---------- */
+    body { background: #fafbfc; }
+    .hero {
+      background: linear-gradient(180deg, #eef3f9 0%, #fafbfc 100%);
+      padding: 56px 0 40px;
+    }
+    .hero .title { letter-spacing: -0.01em; }
+    .section { padding: 44px 0; }
+    .section:nth-of-type(even) { background: #fff; }
+    h2 {
+      position: relative;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    h2::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 44px;
+      height: 3px;
+      border-radius: 2px;
+      background: #2b6cb0;
+    }
+    /* ---------- figure cards ---------- */
+    .fig-card {
+      background: #fff;
+      border: 1px solid #e5e9ef;
+      border-radius: 12px;
+      padding: 18px 20px 12px;
+      margin: 18px 0 8px;
+      box-shadow: 0 1px 3px rgba(27, 39, 60, 0.06);
+    }
+    .fig-card img { margin: 0; border-radius: 6px; }
+    .fig-card p {
+      font-size: 0.86em;
+      color: #5a6472;
+      margin: 10px 0 2px;
+      line-height: 1.55;
+    }
+    .fig-narrow { max-width: 620px; margin-left: auto; margin-right: auto; }
+    /* ---------- results tables ---------- */
+    .table-card {
+      background: #fff;
+      border: 1px solid #e5e9ef;
+      border-radius: 12px;
+      padding: 16px 18px 10px;
+      margin: 18px 0 8px;
+      box-shadow: 0 1px 3px rgba(27, 39, 60, 0.06);
+      overflow-x: auto;
+    }
     .results-table {
       width: 100%;
+      min-width: 560px;
       border-collapse: collapse;
-      margin: 1em auto 0.4em;
+      margin: 0 auto;
       font-size: 0.92em;
       background: #fff;
     }
     .results-table caption {
       text-align: left;
       font-weight: 600;
-      margin-bottom: 0.4em;
-      color: #333;
+      margin-bottom: 0.5em;
+      color: #2d3748;
     }
     .results-table th, .results-table td {
-      padding: 4px 8px;
+      padding: 5px 8px;
       text-align: right;
-      border-bottom: 1px solid #e3e6ea;
+      border-bottom: 1px solid #e9edf2;
     }
     .results-table th:first-child, .results-table td:first-child { text-align: left; }
     .results-table thead th {
@@ -50,11 +102,14 @@
       background: #e4e7eb;
       font-weight: 700;
     }
-    .table-note { font-size: 0.82em; color: #666; margin-top: 0.2em; }
-    .figure-grid { display: grid; grid-template-columns: 1fr; gap: 1.2em; margin-top: 1em; }
-    .figure-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2em; align-items: start; }
-    @media (max-width: 768px) { .figure-pair { grid-template-columns: 1fr; } }
-    .figure-card p { font-size: 0.85em; color: #555; margin-top: 0.4em; }
+    .table-note { font-size: 0.82em; color: #6b7280; margin: 8px 0 2px; }
+    /* ---------- bibtex card ---------- */
+    .section#bibtex pre {
+      background: #fff;
+      border: 1px solid #e5e9ef;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(27, 39, 60, 0.06);
+    }
   </style>
 </head>
 <body>
@@ -95,7 +150,9 @@
 
   <section class="section">
     <div class="container">
-      <img src="Figures/teaser.png" alt="ChainVLA teaser figure">
+      <div class="fig-card">
+        <img src="Figures/teaser.png" alt="ChainVLA teaser figure">
+      </div>
       <h2>Highlight</h2>
       <div class="abstract-content">
         <p class="highlight-item">
@@ -117,22 +174,26 @@
   <section class="section">
     <div class="container">
       <h2>Method</h2>
-      <img src="Figures/method.png" alt="ChainVLA method overview">
-      <p>
-        At each query, Progress Context combines live Working State tokens with event evidence retrieved from the Sparse Event Memory, while Motion Tail carries the preceding prediction's unexecuted suffix into state construction and action generation.
-        The decoder regenerates the full horizon under the latest query input; prefix execution then advances task progress, and the newly predicted suffix is carried forward for the next query.
-      </p>
+      <div class="fig-card">
+        <img src="Figures/method.png" alt="ChainVLA method overview">
+        <p>
+          At each query, Progress Context combines live Working State tokens with event evidence retrieved from the Sparse Event Memory, while Motion Tail carries the preceding prediction's unexecuted suffix into state construction and action generation.
+          The decoder regenerates the full horizon under the latest query input; prefix execution then advances task progress, and the newly predicted suffix is carried forward for the next query.
+        </p>
+      </div>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
       <h2>Tasks</h2>
-      <img src="Figures/tasks.png" alt="RMBench task overview">
-      <p>
-        RMBench provides five memory-dependent bimanual tasks, each requiring several placements in sequence, so a single episode passes through multiple stages and therefore multiple query boundaries.
-        We additionally evaluate on the Spatial, Object, Goal, and Long suites of LIBERO as a breadth check.
-      </p>
+      <div class="fig-card">
+        <img src="Figures/tasks.png" alt="RMBench task overview">
+        <p>
+          RMBench provides five memory-dependent bimanual tasks, each requiring several placements in sequence, so a single episode passes through multiple stages and therefore multiple query boundaries.
+          We additionally evaluate on the Spatial, Object, Goal, and Long suites of LIBERO as a breadth check.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -140,6 +201,7 @@
     <div class="container">
       <h2>Results</h2>
 
+      <div class="table-card">
       <table class="results-table">
         <caption>Success rates (%) on RMBench. Best and second-best listed values are bold and underlined.</caption>
         <thead>
@@ -157,7 +219,9 @@
           <tr class="full"><td>ChainVLA (1.2B)</td><td><b>11</b></td><td><u>93</u></td><td><b>96</b></td><td><b>74</b></td><td><u>40</u></td><td><b>62.8</b></td></tr>
         </tbody>
       </table>
+      </div>
 
+      <div class="table-card">
       <table class="results-table">
         <caption>Success rates (%) on LIBERO.</caption>
         <thead>
@@ -178,7 +242,9 @@
         </tbody>
       </table>
       <p class="table-note">Comparison rows follow the cited references and were not rerun under our protocol.</p>
+      </div>
 
+      <div class="table-card">
       <table class="results-table">
         <caption>Matched ablations on RMBench (100 episodes per task). Best non-Full values are underlined.</caption>
         <thead>
@@ -201,7 +267,9 @@
         </tbody>
       </table>
       <p class="table-note">Removing either half of the carried state collapses performance, while the complete state is required for the full gain.</p>
+      </div>
 
+      <div class="table-card">
       <table class="results-table">
         <caption>Post-decoding smoothing controls. Success (100 episodes) and position CD (mm, lower is better).</caption>
         <thead>
@@ -216,16 +284,15 @@
         </tbody>
       </table>
       <p class="table-note">Post-decoding controls reduce most measured boundary errors yet recover at most 2% success: reducing output-level seams alone does not explain the complete-policy gain.</p>
+      </div>
 
-      <div class="figure-pair">
-        <div class="figure-card">
-          <img src="Figures/boundary_example.png" alt="Illustrative boundary example">
-          <p>Illustrative Put Back Block boundary from paired-scene rollouts: 0.66 mm position CD with Motion Tail against 17.32 mm without it.</p>
-        </div>
-        <div class="figure-card">
-          <img src="Figures/boundary.png" alt="Aggregate boundary errors">
-          <p>Boundary errors for Full and w/o Motion Tail over 80 matched pairs: pooled reductions of 56.6%, 40.4%, 57.4%, and 43.1% for the four diagnostics.</p>
-        </div>
+      <div class="fig-card">
+        <img src="Figures/boundary_example.png" alt="Illustrative boundary example">
+        <p>Illustrative Put Back Block boundary from paired-scene rollouts: 0.66 mm position CD with Motion Tail against 17.32 mm without it.</p>
+      </div>
+      <div class="fig-card fig-narrow">
+        <img src="Figures/boundary.png" alt="Aggregate boundary errors">
+        <p>Boundary errors for Full and w/o Motion Tail over 80 matched pairs: pooled reductions of 56.6%, 40.4%, 57.4%, and 43.1% for the four diagnostics.</p>
       </div>
     </div>
   </section>
