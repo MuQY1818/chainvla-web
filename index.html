@@ -110,6 +110,76 @@
       border-radius: 12px;
       box-shadow: 0 1px 3px rgba(27, 39, 60, 0.06);
     }
+    /* ---------- motion ---------- */
+    html { scroll-behavior: smooth; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero .title,
+    .hero .subtitle,
+    .hero .author-names,
+    .hero .author-affiliations,
+    .hero .author-notes,
+    .hero .links {
+      opacity: 0;
+      animation: fadeUp 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    }
+    .hero .title { animation-delay: 0.05s; }
+    .hero .subtitle { animation-delay: 0.25s; }
+    .hero .author-names { animation-delay: 0.38s; }
+    .hero .author-affiliations { animation-delay: 0.5s; }
+    .hero .author-notes { animation-delay: 0.6s; }
+    .hero .links { animation-delay: 0.72s; }
+    .hero .title u {
+      text-decoration: none;
+      background-image: linear-gradient(currentColor, currentColor);
+      background-repeat: no-repeat;
+      background-position: 0 100%;
+      background-size: 0% 2px;
+      padding-bottom: 1px;
+      animation: underlineGrow 0.6s ease-out 0.9s forwards;
+    }
+    @keyframes underlineGrow { to { background-size: 100% 2px; } }
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .section h2::after {
+      width: 0;
+      transition: width 0.45s ease 0.15s;
+    }
+    .section h2.in::after { width: 44px; }
+    .fig-card, .table-card {
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .fig-card:hover, .table-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(27, 39, 60, 0.10);
+    }
+    .links .btn {
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .links .btn:hover { transform: translateY(-2px); }
+    .results-table tbody tr:not(.group):not(.full):hover td { background: #f5f8fb; }
+    .author-names .author { transition: color 0.15s ease; }
+    .author-names .author:hover { color: #2b6cb0; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+      .section h2::after { width: 44px; }
+      .hero .title u { background-size: 100% 2px; }
+    }
   </style>
 </head>
 <body>
@@ -355,6 +425,35 @@
         }, 1800);
       });
     }
+  </script>
+
+  <script>
+    (function () {
+      var targets = document.querySelectorAll('.fig-card, .table-card, .highlight-item, .section h2');
+      targets.forEach(function (el) { el.classList.add('reveal'); });
+      if (!('IntersectionObserver' in window)) {
+        targets.forEach(function (el) { el.classList.add('in'); });
+        return;
+      }
+      var ioFired = false;
+      var io = new IntersectionObserver(function (entries) {
+        ioFired = true;
+        entries.forEach(function (entry, idx) {
+          if (entry.isIntersecting) {
+            var el = entry.target;
+            setTimeout(function () { el.classList.add('in'); }, (idx % 3) * 60);
+            io.unobserve(el);
+          }
+        });
+      }, { threshold: 0.12 });
+      targets.forEach(function (el) { io.observe(el); });
+      window.addEventListener('scroll', function fallback() {
+        if (!ioFired) {
+          targets.forEach(function (el) { el.classList.add('in'); });
+          window.removeEventListener('scroll', fallback);
+        }
+      }, { passive: true });
+    })();
   </script>
 
 </body>
