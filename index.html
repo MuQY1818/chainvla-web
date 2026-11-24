@@ -216,6 +216,7 @@
       <div class="links">
         <a href="https://arxiv.org/abs/2608.02326" class="btn"><i class="ai ai-arxiv"></i> arXiv</a>
         <a href="#video" class="btn"><i class="fa-solid fa-film"></i> Video</a>
+        <a href="#real-robot" class="btn"><i class="fa-solid fa-robot"></i> Real Robot</a>
         <a href="#bibtex" class="btn"><i class="fa-solid fa-book"></i> BibTeX</a>
       </div>
     </div>
@@ -225,13 +226,14 @@
     <div class="container">
       <h2>Video</h2>
       <div class="fig-card video-card">
-        <video controls playsinline preload="metadata" poster="assets/videos/chainvla_promo_poster.jpg">
-          <source src="assets/videos/chainvla_promo.mp4" type="video/mp4">
+        <video controls playsinline preload="metadata" poster="assets/videos/chainvla_promo_narrated_poster.jpg">
+          <source src="assets/videos/chainvla_promo_narrated.mp4" type="video/mp4">
         </video>
-        <p>Simulation rollouts are autonomous ChainVLA episodes on RMBench, shown in full and sped up.</p>
+        <p>Narrated overview with subtitles. Simulation rollouts are autonomous ChainVLA episodes on RMBench, shown in full and sped up.</p>
       </div>
     </div>
   </section>
+
 
   <section class="section">
     <div class="container">
@@ -369,6 +371,30 @@
         </tbody>
       </table>
       <p class="table-note">Post-decoding controls reduce most measured boundary errors yet recover at most 2% success: reducing output-level seams alone does not explain the complete-policy gain.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="real-robot">
+    <div class="container">
+      <h2>Real-Robot Experiments</h2>
+      <p>A plush toy starts on the left or the right. The robot moves it to the center, returns home, and then puts it back where it started. From the home pose both cases look the same, so the robot has to remember which side the toy came from. We compare three versions of the same trained model over 50 trials each.</p>
+      <div class="table-card">
+      <table class="results-table">
+        <caption>Real-robot Put Back with a plush toy: successes out of 50 trials.</caption>
+        <thead><tr><th>Method</th><th>Successes</th></tr></thead>
+        <tbody>
+          <tr><td>w/o Motion Tail</td><td>15 / 50</td></tr>
+          <tr><td>w/o Motion Tail + Real-Time Chunking</td><td>27 / 50</td></tr>
+          <tr class="full"><td>ChainVLA (Full)</td><td><b>40 / 50</b></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="fig-card video-card">
+        <video controls playsinline preload="metadata" poster="assets/videos/chainvla_real_robot_poster.jpg">
+          <source src="assets/videos/chainvla_real_robot.mp4" type="video/mp4">
+        </video>
+        <p>Narrated real-robot rollouts, played at 2&times;. Without Motion Tail, the most common failure is re-grasping the toy at the center without returning home.</p>
       </div>
     </div>
   </section>
