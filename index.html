@@ -47,6 +47,8 @@
       box-shadow: 0 1px 3px rgba(27, 39, 60, 0.06);
     }
     .fig-card img { margin: 0; border-radius: 6px; }
+    .video-card { padding: 12px; }
+    .video-card video { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 6px; background: #0f1013; }
     .fig-card p {
       font-size: 0.86em;
       color: #5a6472;
@@ -213,7 +215,20 @@
 
       <div class="links">
         <a href="https://arxiv.org/abs/2608.02326" class="btn"><i class="ai ai-arxiv"></i> arXiv</a>
+        <a href="#video" class="btn"><i class="fa-solid fa-film"></i> Video</a>
         <a href="#bibtex" class="btn"><i class="fa-solid fa-book"></i> BibTeX</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="video">
+    <div class="container">
+      <h2>Video</h2>
+      <div class="fig-card video-card">
+        <video controls playsinline preload="metadata" poster="assets/videos/chainvla_promo_poster.jpg">
+          <source src="assets/videos/chainvla_promo.mp4" type="video/mp4">
+        </video>
+        <p>Simulation rollouts are autonomous ChainVLA episodes on RMBench, shown in full and sped up.</p>
       </div>
     </div>
   </section>
